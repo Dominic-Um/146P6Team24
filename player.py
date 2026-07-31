@@ -94,21 +94,22 @@ class UserWebcamPlayer:
             raise e
     
     def _get_emotion(self, img) -> int:
-        # Your code goes here
-        #
-        # img an np array of size NxN (square), each pixel is a value between 0 to 255
-        # you have to resize this to image_size before sending to your model
-        # to show the image here, you can use:
-        # import matplotlib.pyplot as plt
-        # plt.imshow(img, cmap='gray', vmin=0, vmax=255)
-        # plt.show()
-        #
-        # You have to use your saved model, use resized img as input, and get one classification value out of it
-        # The classification value should be 0, 1, or 2 for neutral, happy or surprise respectively
+        import cv2
+        import numpy as np
+        from tensorflow.keras.models import load_model
 
-        # return an integer (0, 1 or 2), otherwise the code will throw an error
-        return 1
-        pass
+        if not hasattr(self, '_model'):
+            self._model = load_model('results/your_model_name.keras')
+
+        resized = cv2.resize(img, image_size)
+        rgb = cv2.cvtColor(resized, cv2.COLOR_GRAY2RGB)
+        rgb = rgb.astype('float32') / 255.0
+        batch = np.expand_dims(rgb, axis=0)
+
+        prediction = self._model.predict(batch, verbose=0)
+        emotion = int(np.argmax(prediction[0]))
+
+        return emotion
     
     def get_move(self, board_state):
         row, col = None, None
