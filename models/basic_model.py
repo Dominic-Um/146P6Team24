@@ -8,20 +8,21 @@ class BasicModel(Model):
     def _define_model(self, input_shape, categories_count):
         self.model = Sequential([
         Rescaling(1./255, input_shape=input_shape),
-        layers.Conv2D(16, 3, activation='relu'),
+        layers.Conv2D(16, (4,4), activation='relu'),
         layers.MaxPooling2D((4,4)),
         layers.Dropout(0.1),
 
-        layers.Conv2D(32, 3, activation='relu'),
+        layers.Conv2D(32, (4,4), activation='relu'),
         layers.MaxPooling2D((3,3)),
         layers.Dropout(0.1),
 
-        layers.Conv2D(48, 3, activation='relu'),
+        layers.Conv2D(48, (4,4), activation='relu'),
         layers.MaxPooling2D((2,2)),
         layers.Dropout(0.1),
 
         layers.Flatten(),
         layers.Dense(64, activation='relu'),
+        layers.Dropout(0.1),
         layers.Dense(categories_count, activation='softmax'),
     ])
 
