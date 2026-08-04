@@ -7,7 +7,7 @@ import numpy as np
 class RandomModel(Model):
     def _define_model(self, input_shape, categories_count):
         # Load your base model 
-        base_model = models.load_model("results/your_model_name.keras")
+        base_model = models.load_model("results/basic_model_30_epochs_timestamp_1785804752.keras")
 
         # Freeze all layers so training does NOT update them
         for layer in base_model.layers:
@@ -17,8 +17,8 @@ class RandomModel(Model):
         self._randomize_layers(base_model)
 
         base_model_output = base_model.layers[-2].output
-        x = layers.Dense(32, activation="relu")(base_model_output)
-        output = layers.Dense(categories_count, activation="softmax")(x)
+        x = layers.Dense(32, activation="relu", name='transfer_dense')(base_model_output)
+        output = layers.Dense(categories_count, activation="softmax", name='transfer_output')(x)
 
         self.model = models.Model(inputs=base_model.input, outputs=output)
     
