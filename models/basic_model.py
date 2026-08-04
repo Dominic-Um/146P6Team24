@@ -4,7 +4,7 @@ from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.optimizers import RMSprop
 
 class BasicModel(Model):
-    # Current best accuracy: 69% on 15 epochs
+    # Current best accuracy: 75% on 20 epochs
     def _define_model(self, input_shape, categories_count):
         self.model = Sequential([
         Rescaling(1./255, input_shape=input_shape),
@@ -26,26 +26,25 @@ class BasicModel(Model):
         layers.Dense(categories_count, activation='softmax'),
     ])
 
-    """
-    Initial Version below. 60% accuracy on 6 epochs in train.py
-    ---------------------------------------------
-    def _define_model(self, input_shape, categories_count):
-        self.model = Sequential([
-        Rescaling(1./255, input_shape=input_shape),
-        layers.Conv2D(16, 3, activation='relu'),
-        layers.MaxPooling2D(),
-        layers.Conv2D(32, 3, activation='relu'),
-        layers.MaxPooling2D(),
-        layers.Flatten(),
-        layers.Dense(64, activation='relu'),
-        layers.Dense(categories_count, activation='softmax'),
-    ])
-    """
-
-    
     def _compile_model(self):
-        self.model.compile(
-            optimizer=RMSprop(learning_rate=0.001),
-            loss='categorical_crossentropy',
-            metrics=['accuracy'],
-        )
+            self.model.compile(
+                optimizer=RMSprop(learning_rate=0.001),
+                loss='categorical_crossentropy',
+                metrics=['accuracy'],
+            )
+    
+    # Initial Version below. 60% accuracy on 6 epochs in train.py
+    """ def _define_model(self, input_shape, categories_count):
+        self.model = Sequential([
+            Rescaling(1./255, input_shape=input_shape),
+
+            layers.Conv2D(16, 3, activation='relu'),
+            layers.MaxPooling2D(),
+
+            layers.Conv2D(32, 3, activation='relu'),
+            layers.MaxPooling2D(),
+
+            layers.Flatten(),
+            layers.Dense(64, activation='relu'),
+            layers.Dense(categories_count, activation='softmax'),
+        ]) """
