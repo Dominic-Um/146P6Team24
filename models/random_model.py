@@ -17,8 +17,8 @@ class RandomModel(Model):
         self._randomize_layers(base_model)
 
         base_model_output = base_model.layers[-2].output
-        x = layers.Dense(32, activation="relu", name='transfer_dense')(base_model_output)
-        output = layers.Dense(categories_count, activation="softmax", name='transfer_output')(x)
+        x = layers.Dense(32, activation="relu", name='random_dense')(base_model_output)
+        output = layers.Dense(categories_count, activation="softmax", name='random_output')(x)
 
         self.model = models.Model(inputs=base_model.input, outputs=output)
     
