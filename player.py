@@ -99,11 +99,11 @@ class UserWebcamPlayer:
         from tensorflow.keras.models import load_model
 
         if not hasattr(self, '_model'):
-            self._model = load_model('results/your_model_name.keras')
+            self._model = load_model('results/basic_model_30_epochs_timestamp_1785804752.keras')
 
         resized = cv2.resize(img, image_size)
         rgb = cv2.cvtColor(resized, cv2.COLOR_GRAY2RGB)
-        rgb = rgb.astype('float32') / 255.0
+        #rgb = rgb.astype('float32') / 255.0 <- Don't need to normalize twice
         batch = np.expand_dims(rgb, axis=0)
 
         prediction = self._model.predict(batch, verbose=0)
